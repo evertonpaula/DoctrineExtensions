@@ -6,6 +6,7 @@ use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 use Gedmo\Translatable\TranslatableListener;
 use Doctrine\ODM\MongoDB\Cursor;
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ODM\MongoDB\Iterator\Iterator;
 use Doctrine\ODM\MongoDB\UnitOfWork;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Gedmo\Tool\Wrapper\MongoDocumentWrapper;
@@ -137,7 +138,7 @@ class TranslationRepository extends DocumentRepository
 
             $q->setHydrate(false);
             $data = $q->execute();
-            if ($data instanceof Cursor) {
+            if ($data instanceof Cursor || $data instanceof Iterator) {
                 $data = $data->toArray();
             }
             if ($data && is_array($data) && count($data)) {
@@ -175,7 +176,7 @@ class TranslationRepository extends DocumentRepository
 
             $q->setHydrate(false);
             $result = $q->execute();
-            if ($result instanceof Cursor) {
+            if ($result instanceof Cursor || $result instanceof Iterator) {
                 $result = $result->toArray();
             }
             $id = count($result) ? $result[0]['foreignKey'] : null;
@@ -208,7 +209,7 @@ class TranslationRepository extends DocumentRepository
             $q->setHydrate(false);
             $data = $q->execute();
 
-            if ($data instanceof Cursor) {
+            if ($data instanceof Cursor || $data instanceof Iterator) {
                 $data = $data->toArray();
             }
             if ($data && is_array($data) && count($data)) {
